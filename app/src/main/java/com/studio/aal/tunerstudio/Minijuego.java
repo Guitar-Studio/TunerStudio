@@ -190,7 +190,6 @@ public class Minijuego extends Fragment {
     };
 
     private View.OnClickListener clickListener = new View.OnClickListener() {
-
         @Override
         public void onClick(View v) {
             if (v.getId() == correctButtonId){
@@ -228,11 +227,9 @@ public class Minijuego extends Fragment {
     };
 
     private DialogInterface.OnClickListener clickDialogListener = new DialogInterface.OnClickListener() {
-
         @Override
         public void onClick(DialogInterface dialog, int which) {
             crono_num.start();
-
         }
     };
 

@@ -7,4 +7,10 @@
     tools:context="com.studio.aal.tunerstudio.PantallaCarga"
     android:background="@mipmap/pantalla_carga">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/cargando"
+        android:id="@+id/carga"/>
+
 </RelativeLayout>

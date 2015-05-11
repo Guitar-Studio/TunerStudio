@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:layout_margin="0dp"
-            android:background="#ffffd56a"
+            android:background="@mipmap/bafinador"
             android:id="@+id/saltarAfinador"
             />
 
@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:layout_margin="0dp"
-            android:background="#ffff5e26"
+            android:background="@mipmap/bmetronomo"
             android:id="@+id/saltarMetronomo"/>
 
         <ImageButton
@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:layout_margin="0dp"
-            android:background="#ffffd56a"
+            android:background="@mipmap/bjuego"
             android:id="@+id/saltarMinijuego"
             />
 
@@ -74,7 +74,7 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:layout_margin="0dp"
-            android:background="#ffffd56a"/>
+            android:background="@mipmap/publi"/>
 
     </LinearLayout>
 

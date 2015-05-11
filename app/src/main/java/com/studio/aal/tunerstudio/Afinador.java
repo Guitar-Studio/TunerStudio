@@ -13,7 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -48,6 +53,15 @@ public class Afinador extends Fragment {
 
     public float frequency;
 
+    RotateAnimation animRotate;
+    float xPivot = 0.5f;
+    float yPivot = 0.5f;
+
+    float startRotate = 0.0f;
+    float stopRotate = 0.0f;
+
+    boolean isAnimating = false;
+
     public Afinador() {
         // Required empty public constructor
     }
@@ -61,7 +75,6 @@ public class Afinador extends Fragment {
         bufferSize = AudioRecord.getMinBufferSize
                 (RECORDER_SAMPLERATE,RECORDER_CHANNELS,RECORDER_AUDIO_ENCODING)*4;
 
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_afinador, container, false);
     }
@@ -69,50 +82,8 @@ public class Afinador extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        setButtonHandlers();
-        enableButtons(false);
-
-        //TextView textfrequency= (TextView) getView().findViewById(R.id.frecuencia);
-        //textfrequency.bringToFront();
+        startRecording();
     }
-
-    //___________________BOTONES_____________________________________________
-
-    private void setButtonHandlers() {
-        ((Button)getView().findViewById(R.id.btStart)).setOnClickListener(btnClick);
-        ((Button)getView().findViewById(R.id.btStop)).setOnClickListener(btnClick);
-    }
-
-
-    private void enableButton(int id,boolean isEnable){
-        ((Button)getView().findViewById(id)).setEnabled(isEnable);
-    }
-
-    private void enableButtons(boolean isRecording) {
-        enableButton(R.id.btStart,!isRecording);
-        enableButton(R.id.btStop,isRecording);
-    }
-
-    private View.OnClickListener btnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch(v.getId()){
-                case R.id.btStart:{
-                    Log.i("AVISO", "Start Recording");
-                    enableButtons(true);
-                    startRecording();
-                    break;
-                }
-                case R.id.btStop:{
-                    Log.i("AVISO", "Stop Recording");
-                    enableButtons(false);
-                    stopRecording();
-                    //calculate();
-                    break;
-                }
-            }
-        }
-    };
-    //___________FIN BOTONES_____________________________________________
 
     //_______USANDO EL MICRO_______________________________________________
     public void startRecording(){               //recogerSonido
@@ -146,30 +117,38 @@ public class Afinador extends Fragment {
             if (frequency > 121 && frequency < 131){//E1 126
                 texto.setBackgroundColor(Color.GREEN);
                 texto.setText("E " + frequency);
+                stopRotate = 15f*4;
             }
             else if (frequency > 91 && frequency < 101){//B 96
                 texto.setBackgroundColor(Color.GREEN);
                 texto.setText("B " + frequency);
+                stopRotate = 15f*1;
             }
             else if (frequency > 73 && frequency < 83) {//G 78
                 texto.setBackgroundColor(Color.GREEN);
                 texto.setText("G " + frequency);
+                stopRotate = 15f*6;
             }
             else if (frequency > 49 && frequency < 59) {//D 54
                 texto.setBackgroundColor(Color.GREEN);
                 texto.setText("D " + frequency);
+                stopRotate = 15f*3;
             }
             else if (frequency > 205 && frequency < 215) {//A 210
                 texto.setBackgroundColor(Color.GREEN);
                 texto.setText("A " + frequency);
+                stopRotate = 0.0f;
             }
             else if (frequency > 61 && frequency < 71) {//E6 66
                 texto.setBackgroundColor(Color.GREEN);
                 texto.setText("E " + frequency);
+                stopRotate = 15f*4;
             }
             else{
                 texto.setBackgroundColor(Color.BLACK);
             }
+
+            rotar();
         }
     }
 
@@ -231,11 +210,6 @@ public class Afinador extends Fragment {
         copyWaveFile(getTempFilename(), getFilename());
     }
     //____DEJANDO DE USAR EL MICRO________________________________________
-
-    private void deleteTempFile() {                 //borrarTemporal
-        File file = new File(getTempFilename());
-        file.delete();
-    }
 
     private String getTempFilename(){               //cogerTemporal
         String filepath = Environment.getExternalStorageDirectory().getPath();
@@ -325,4 +299,47 @@ public class Afinador extends Fragment {
         }
         return absSignal;
     }
+
+    public void rotar(){
+        if (!isAnimating){
+            AnimationSet animSet = new AnimationSet(true);
+            animSet.setInterpolator(new LinearInterpolator());
+            animSet.setFillAfter(true);
+            animSet.setFillEnabled(true);
+
+            ImageView myImageView = (ImageView) getView().findViewById(R.id.ruedotaa);
+
+            animRotate = new RotateAnimation(-startRotate, -stopRotate,
+                    RotateAnimation.RELATIVE_TO_SELF, xPivot,
+                    RotateAnimation.RELATIVE_TO_SELF, yPivot);
+
+            animRotate.setDuration(2000);
+            animSet.setAnimationListener(animListener);
+
+            animSet.addAnimation(animRotate);
+            myImageView.startAnimation(animSet);
+
+            Log.i("Start Rotate", ""+startRotate);
+            Log.i("Stop Rotate", ""+stopRotate);
+
+            startRotate = stopRotate;
+        }
+    }
+
+    private Animation.AnimationListener animListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+            isAnimating = true;
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            isAnimating = false;
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
 }

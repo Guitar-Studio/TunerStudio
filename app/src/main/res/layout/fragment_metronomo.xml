@@ -1,6 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.studio.aal.tunerstudio.Metronomo">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.studio.aal.tunerstudio.Metronomo">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -14,10 +17,43 @@
         android:background="@mipmap/aguja_metron"
         android:id="@+id/aguja"/>
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="rotar"
-        android:id="@+id/start"/>
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="90dp"
+        >
 
-</FrameLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Andante"
+            android:id="@+id/andante"
+            android:layout_gravity="bottom"
+            android:textSize="12dp"
+            android:textColor="#f4d1b9"
+            android:background="#2e2621"
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Moderatto"
+            android:id="@+id/moderatto"
+            android:layout_gravity="bottom"
+            android:textSize="12dp"
+            android:textColor="#f4d1b9"
+            android:background="#2e2621"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Allegro"
+            android:id="@+id/allegro"
+            android:layout_gravity="bottom"
+            android:textSize="12dp"
+            android:textColor="#f4d1b9"
+            android:background="#2e2621"/>
+    </LinearLayout>
+
+
+</RelativeLayout>

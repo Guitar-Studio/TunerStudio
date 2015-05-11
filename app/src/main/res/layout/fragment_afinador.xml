@@ -5,7 +5,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="bottom"
-    android:background="@mipmap/background1">
+    android:background="@mipmap/background1"
+    android:clipChildren="false">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -35,42 +36,13 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="-940dp"
         android:elevation="-1000000dp"
+        android:id="@+id/ruedotaa"
         />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top">
-
-
-
-
-
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Grabar"
-                android:id="@+id/btStart"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Parar"
-                android:id="@+id/btStop"/></LinearLayout>
-
-
-
-
 
         <ImageView
             android:layout_width="match_parent"

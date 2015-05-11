@@ -1,8 +1,10 @@
 package com.studio.aal.tunerstudio;
 
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +21,26 @@ import android.widget.ImageView;
  */
 public class Metronomo extends Fragment {
 
-    boolean start = false;
-    boolean right = true;
+    boolean go = true;
 
     RotateAnimation animRotate;
 
     float xPivot = 0.494f;
     float yPivot = 0.75f;
 
-    int time = 1500;
+    long timeSlow = 90;            //90bpm
+    long timeModerate = 110;       //110bpm
+    long timeFast = 136;           //136bpm
 
-    Button startButton;
+    long time = 0;
+
+    Button andanteButton;
+    Button moderatoButton;
+    Button allegroButton;
+
+    MediaPlayer mediaPlayer;
+
+    int anim = 1;
 
     public Metronomo() {
         // Required empty public constructor
@@ -46,11 +57,19 @@ public class Metronomo extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        startButton = (Button) getView().findViewById(R.id.start);
-        startButton.setOnClickListener(btnClick);
+        andanteButton = (Button) getView().findViewById(R.id.andante);
+        moderatoButton = (Button) getView().findViewById(R.id.moderatto);
+        allegroButton = (Button) getView().findViewById(R.id.allegro);
+
+        andanteButton.setOnClickListener(btnClick);
+        moderatoButton.setOnClickListener(btnClick);
+        allegroButton.setOnClickListener(btnClick);
+
+        mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.t_sonido);
+        mediaPlayer.setOnPreparedListener(prepListener);
     }
 
-    public void rotar(){
+    public void rotar() {
         AnimationSet animSet = new AnimationSet(true);
         animSet.setInterpolator(new LinearInterpolator());
         animSet.setFillAfter(true);
@@ -58,46 +77,53 @@ public class Metronomo extends Fragment {
 
         animSet.setAnimationListener(animListener);
 
-        ImageView myImageView = (ImageView)getView().findViewById(R.id.aguja);
+        ImageView myImageView = (ImageView) getView().findViewById(R.id.aguja);
 
-        if(start){
-            animRotate = new RotateAnimation(0.0f, -45.0f,
-                    RotateAnimation.RELATIVE_TO_SELF, xPivot,
-                    RotateAnimation.RELATIVE_TO_SELF, yPivot);
-
-            animRotate.setFillAfter(true);
-            animRotate.setDuration(time);
-
-            start = !start;
-        }
-        else{
-            if(right){
-                animRotate = new RotateAnimation(-45.0f, 45.0f,
+        switch (anim) {
+            case 1:
+                animRotate = new RotateAnimation(0.0f, -45.0f,
                         RotateAnimation.RELATIVE_TO_SELF, xPivot,
                         RotateAnimation.RELATIVE_TO_SELF, yPivot);
-
-            }
-            else{
-                animRotate = new RotateAnimation(45.0f, -45.0f,
+                Log.i("Entro", "Estoy aqui");
+                break;
+            case 2:
+                animRotate = new RotateAnimation(-45.0f, 0.0f,
                         RotateAnimation.RELATIVE_TO_SELF, xPivot,
                         RotateAnimation.RELATIVE_TO_SELF, yPivot);
-
-            }
-
-            animRotate.setFillAfter(true);
-            animRotate.setDuration(time);
-
-            right = !right;
+                break;
+            case 3:
+                animRotate = new RotateAnimation(0.0f, 45.0f,
+                        RotateAnimation.RELATIVE_TO_SELF, xPivot,
+                        RotateAnimation.RELATIVE_TO_SELF, yPivot);
+                break;
+            case 4:
+                animRotate = new RotateAnimation(45.0f, 0.0f,
+                        RotateAnimation.RELATIVE_TO_SELF, xPivot,
+                        RotateAnimation.RELATIVE_TO_SELF, yPivot);
+                break;
         }
-        animRotate.setFillAfter(true);
+
+        animRotate.setDuration(time);
+
         animSet.addAnimation(animRotate);
-
         myImageView.startAnimation(animSet);
     }
+
 
     private View.OnClickListener btnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.andante:
+                    time = 1*60000/timeSlow;
+                    break;
+                case R.id.moderatto:
+                    time = 1*60000/timeModerate;
+                    break;
+                case R.id.allegro:
+                    time = 1*60000/timeFast;
+                    break;
+            }
             rotar();
         }
     };
@@ -110,11 +136,28 @@ public class Metronomo extends Fragment {
 
         @Override
         public void onAnimationEnd(Animation animation) {
+            if (anim == 2 || anim == 4){
+                mediaPlayer.start();
+            }
+            if (anim == 4){
+                anim = 1;
+            }
+            else{
+                anim++;
+            }
+
             rotar();
         }
 
         @Override
         public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+
+    private MediaPlayer.OnPreparedListener prepListener = new MediaPlayer.OnPreparedListener() {
+        @Override
+        public void onPrepared(MediaPlayer mp) {
 
         }
     };
