@@ -29,9 +29,8 @@ public class Minijuego extends Fragment {
 
     private Chronometer crono_num;
 
-
     List<String> notes = new LinkedList(Arrays.asList("E6", "A5", "D4", "G3", "B2", "E1"));
-    List<String> notesCopy;
+    List<String> notesCopy = new LinkedList(Arrays.asList("E6", "A5", "D4", "G3", "B2", "E1"));
 
     List<String> notesSelected = new ArrayList<String>();
 
@@ -61,8 +60,6 @@ public class Minijuego extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-
-        notesCopy = notes;
 
         mediaPlayer = MediaPlayer.create(getView().getContext(), R.raw.c_sonido);
         mediaPlayer.setOnSeekCompleteListener(timeStampDetector);
