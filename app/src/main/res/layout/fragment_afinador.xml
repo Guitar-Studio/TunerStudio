@@ -1,11 +1,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.app.ala.tunerstudio.Afinador"
+    tools:context="com.studio.aal.tunerstudio.Afinador"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_gravity="bottom"
-    android:background="@drawable/background1">
+    android:background="@mipmap/background1">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
             android:text="550Hz"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#544a45"
+            android:textColor="#ff544a45"
             android:id="@+id/frecuencia"
             android:layout_marginRight="180dp"/>
 
@@ -29,7 +29,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ruedota"
+        android:src="@mipmap/ruedota"
         android:cropToPadding="false"
         android:scaleType="center"
         android:layout_gravity="bottom"
@@ -75,12 +75,12 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/baseaguja"/>
+            android:src="@mipmap/baseaguja"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/aguja"/>
+            android:src="@mipmap/aguja"/>
 
     </RelativeLayout>
 
